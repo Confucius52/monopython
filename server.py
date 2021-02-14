@@ -32,7 +32,7 @@ def process_data(data):
     if action == "join":
         cur_state.add_player(data) 
     elif action == 'roll_dice':
-        process_roll() 
+        cur_state.process_roll() 
 
     elif action == 'leave':
         pass

@@ -4,16 +4,26 @@ from tiles import tiles
 
 class State:
     colors = ['#da00fe', '#fea600', "#fe4138", "#0072BB", "#29b30f", "#00e2e5"]  
+    max_players = 2
     fake_rolls = [(3,4), (1,1)]
     cur_roll = -1 
 
     def get_roll(self):
         State.cur_roll += 1
-        return State.fake_rolls[cur_roll]
+        return State.fake_rolls[State.cur_roll]
 
     def process_roll(self):
         (a,b) = self.get_roll()
-        self.cur_player() 
+        self.players[self.cur_player()].location += a + b 
+        self.players[self.cur_player()].location %= 40 
+
+        # change to if tiles[location] == 'property'
+        if (self.players[self.cur_player()].location == 7):
+            self.currentSituation = 'buy_or_auction'
+
+        if a != b:
+            self.currentTurn += 1
+            self.currentTurn %= len(self.playerIds)
 
     def __init__(self):
         self.tiles = tiles.tiles
@@ -32,6 +42,9 @@ class State:
         self.players[data['id']] = Player(data['username'], State.colors[0])
         self.playerIds.append(data['id'])
 
+        if len(self.playerIds) == State.max_players:
+            self.currentSituation = 'waiting_for_dice_roll'
+
         State.colors.append(State.colors[0])
         del State.colors[0]
 
@@ -46,3 +59,5 @@ class State:
             "auction": self.auction,
             "currentSpecialDescription": self.currentSpecialDescription
         }
+
+

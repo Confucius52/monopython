@@ -13,6 +13,9 @@ class Street:
         self.house_cost = house_cost
         self.isMortgaged = isMortgaged
 
+    def get_rent(self):
+        return self.rent
+
     def json(self):
         return {
             "position": self.position,
