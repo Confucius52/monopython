@@ -6,14 +6,14 @@ class State:
     fake_rolls = [(3,4), (1,1)]
     cur_roll = -1 
     
-    def get_roll():
+    def get_roll(self):
         State.cur_roll += 1
 
         return State.fake_rolls[cur_roll]
 
-    def process_roll():
-        (a,b) = get_roll()
-        
+    def process_roll(self):
+        (a,b) = self.get_roll()
+        self.cur_player() 
     
     def __init__(self):
         self.tiles = []
