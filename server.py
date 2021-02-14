@@ -1,10 +1,10 @@
 import json
+from player import *
+from state import *
 from random import randint
 
-state = {"players": dict(), "currentTurn": 0, "playerIds": [], "currentSituation": 'lobby'}
-
-def cur_player():
-    return state["playerIds"][state["currentTurn"]]
+# cur_state.state = {"players": dict(), "currentTurn": 0, "playerIds": [], "currentSituation": 'lobby'}
+cur_state = State()
 
 colors = ['#da00fe', '#fea600', "#fe4138", "#0072BB", "#29b30f", "#00e2e5"]  
 
@@ -19,23 +19,18 @@ def get_roll():
 def process_roll():
     (a,b) = get_roll()
 
-    state["players"][cur_player()]["location"] += a + b
-    state["players"][cur_player()]["location"] %= 40
+    # cur_state.state["players"][get_cur_player()].location += a + b
+    # cur_state.state["players"][get_cur_player()]["location"] %= 40
      
-    if a != b:
-        state["currentTurn"] += 1 
-        state["currentTurn"] %= len(state["players"]) 
+    # if a != b:
+    #     cur_state.state["currentTurn"] += 1 
+    #     cur_state.state["currentTurn"] %= len(cur_state.state["players"]) 
 
 def process_data(data): 
     action = data['action']
 
     if action == "join":
-        player = {"username": data['username'], "money": 200, "location": 0, "cards": 0, "color": colors[0]}
-        state["playerIds"].append(data['id'])
-        state["players"][data['id']] = player
-        
-        colors.append(colors[0])
-        del colors[:1]
+        cur_state.add_player(data) 
     elif action == 'roll_dice':
         process_roll() 
 

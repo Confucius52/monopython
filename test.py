@@ -1,5 +1,5 @@
 import json
-import server
+from server import *
 from pprint import pprint
 
 class ComplexEncoder(json.JSONEncoder):
@@ -16,9 +16,9 @@ actions = [
 
 def main():
     for action in actions:
-        server.process_data(action)
+        process_data(action)
 
-    print(json.dumps(server.state, indent = 2, cls = ComplexEncoder))
+    print(json.dumps(cur_state, indent = 2, cls = ComplexEncoder))
 
 
 if __name__ == '__main__':
